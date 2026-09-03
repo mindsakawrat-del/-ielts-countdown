@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Countdown</title>
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --card: #ffffff;
+      --text: #1f2328;
+      --muted: #7a7f87;
+      --line: #e7e5df;
+      --accent: #cda85f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+    }
+
+    body {
+      padding: 0;
+    }
+
+    .widget {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 24px 18px;
+      box-shadow: none;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .date {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .title {
+      margin: 0 0 3px;
+      font-size: clamp(20px, 3vw, 30px);
+      line-height: 1.08;
+      font-weight: 760;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .unit {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 8px 10px;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .number {
+      display: block;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(28px, 6vw, 50px);
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: -0.045em;
+    }
+
+    .label {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      font-size: 12px;
+    }
+
+    .target strong {
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .status {
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .exam-day {
+      display: none;
+      padding: 20px 14px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      text-align: center;
+      font-size: clamp(26px, 6vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 620px) {
+      .widget { padding: 16px 14px; border-radius: 14px; }
+      .topline { margin-bottom: 9px; }
+      .date { display: none; }
+      .subtitle { margin-bottom: 12px; font-size: 12px; }
+      .countdown { gap: 6px; margin-bottom: 10px; }
+      .unit { padding: 10px 4px 8px; border-radius: 10px; }
+      .label { font-size: 8px; letter-spacing: 0.06em; }
+      .footer { padding-top: 9px; }
+    }
+
+    @media (max-height: 340px) {
+      .topline { display: none; }
+      .title { font-size: 22px; }
+      .subtitle { margin-bottom: 10px; }
+      .countdown { margin-bottom: 9px; }
+      .unit { padding-top: 9px; padding-bottom: 7px; }
+      .number { font-size: 38px; }
+      .footer { padding-top: 8px; }
+    }
+
+    @media (max-height: 270px) {
+      .subtitle { display: none; }
+      .title { margin-bottom: 10px; font-size: 20px; }
+      .number { font-size: 32px; }
+      .label { margin-top: 5px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="widget">
+    <div class="topline">
+      <div class="eyebrow">IELTS Countdown</div>
+      <div class="date">24 November 2026 · Bangkok</div>
+    </div>
+
+    <h1 class="title">Make every day count.</h1>
+    <p class="subtitle">Automatic real-time countdown to IELTS exam day</p>
+
+    <div id="countdown" class="countdown" aria-label="Countdown">
+      <div class="unit"><span id="days" class="number">00</span><span class="label">Days</span></div>
+      <div class="unit"><span id="hours" class="number">00</span><span class="label">Hours</span></div>
+      <div class="unit"><span id="minutes" class="number">00</span><span class="label">Minutes</span></div>
+      <div class="unit"><span id="seconds" class="number">00</span><span class="label">Seconds</span></div>
+    </div>
+
+    <div id="examDay" class="exam-day">🎯 EXAM DAY</div>
+
+    <div class="footer">
+      <div class="target">Target Band <strong>6.5</strong></div>
+      <div id="status" class="status">Counting down in real time</div>
+    </div>
+  </main>
+
+  <script>
+    const EXAM_DATE = new Date("2026-11-24T00:00:00+07:00");
+
+    const $ = (id) => document.getElementById(id);
+    const daysEl = $("days");
+    const hoursEl = $("hours");
+    const minutesEl = $("minutes");
+    const secondsEl = $("seconds");
+    const countdownEl = $("countdown");
+    const examDayEl = $("examDay");
+    const statusEl = $("status");
+    const pad = (value) => String(value).padStart(2, "0");
+
+    function updateCountdown() {
+      const diff = EXAM_DATE.getTime() - Date.now();
+
+      if (diff <= 0) {
+        countdownEl.style.display = "none";
+        examDayEl.style.display = "block";
+        statusEl.textContent = "You’ve got this.";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      daysEl.textContent = Math.floor(totalSeconds / 86400);
+      hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
+      minutesEl.textContent = pad(Math.floor((totalSeconds % 3600) / 60));
+      secondsEl.textContent = pad(totalSeconds % 60);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
